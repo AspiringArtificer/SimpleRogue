@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>439bf60f-563e-436a-a210-1ca583f15227</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>SimpleRogue.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +22,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="SimpleRogue.py" />
+    <Content Include="arial12x12.png" />
+    <Content Include="libtcod.dll" />
+    <Content Include="libtcodgui.dll" />
+    <Content Include="SDL2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="libtcodpy\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="engine.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libtcodpy\cprotos.py" />
+    <Compile Include="libtcodpy\__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
