@@ -33,6 +33,9 @@
     <Compile Include="engine.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="entity.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="input_handlers.py">
       <SubType>Code</SubType>
     </Compile>
