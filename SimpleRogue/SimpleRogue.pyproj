@@ -41,6 +41,9 @@
     </Compile>
     <Compile Include="libtcodpy\cprotos.py" />
     <Compile Include="libtcodpy\__init__.py" />
+    <Compile Include="render_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
