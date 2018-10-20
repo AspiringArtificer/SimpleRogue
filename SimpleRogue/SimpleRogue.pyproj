@@ -33,6 +33,9 @@
     <Compile Include="engine.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="input_handlers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="libtcodpy\cprotos.py" />
     <Compile Include="libtcodpy\__init__.py" />
   </ItemGroup>
