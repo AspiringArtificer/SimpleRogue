@@ -7,6 +7,8 @@ from input_handlers import handle_keys
 from map_objects.game_map import GameMap
 from render_functions import clear_all, render_all
 from fov_functions import initializ_fov, recompute_fov
+from game_states import GameStates
+from components.fighter import Fighter
 
 def main():
     #initilize main variables
@@ -32,7 +34,8 @@ def main():
         'light_ground': libtcod.Color(30, 20, 15)
     }
 
-    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True)
+    fighter_component = Fighter(hp=30, defense=2, power=5)
+    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, fighter=fighter_component)
     entities = [player]
 
     #set up screen
@@ -47,6 +50,7 @@ def main():
 
     fov_recompute = True
     fov_map = initializ_fov(game_map)
+    game_state = GameStates.PLAYERS_TURN
 
     # main game loop
     while not libtcod.console_is_window_closed():
@@ -67,7 +71,7 @@ def main():
         exit = action.get('exit')
         fullscreen = action.get('fullscreen')
 
-        if move:
+        if move and game_state == GameStates.PLAYERS_TURN:
             dx, dy = move
             destination_x = player.x + dx
             destination_y = player.y + dy
@@ -76,10 +80,21 @@ def main():
                 target = get_blocking_entities_at_location(entities, destination_x, destination_y)
 
                 if target:
-                    print('You kick the ' + target.name + ' in the shins, much to its annoyance!')
+                    #print('You kick the ' + target.name + ' in the shins, much to its annoyance!')
+                    player.fighter.attack(target)
                 else:
                     player.move(dx, dy)
                     fov_recompute = True
+                
+            game_state = GameStates.ENEMY_TURN
+
+        if game_state == GameStates.ENEMY_TURN:
+            for entity in entities:
+                if entity.ai:
+                    entity.ai.take_turn(player, fov_map, game_map, entities)
+                    
+
+            game_state = GameStates.PLAYERS_TURN
 
         if exit:
             return True

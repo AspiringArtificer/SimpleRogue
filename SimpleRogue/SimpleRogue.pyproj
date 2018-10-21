@@ -27,14 +27,27 @@
     <Content Include="SDL2.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="components\" />
     <Folder Include="libtcodpy\" />
     <Folder Include="map_objects\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="components\ai.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\fighter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="engine.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="entity.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="game_states.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="input_handlers.py">
