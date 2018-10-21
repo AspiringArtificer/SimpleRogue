@@ -41,6 +41,9 @@
     <Compile Include="components\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="death_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="engine.py">
       <SubType>Code</SubType>
     </Compile>
