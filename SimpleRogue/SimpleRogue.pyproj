@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="libtcodpy\" />
+    <Folder Include="map_objects\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="engine.py">
@@ -41,6 +42,19 @@
     </Compile>
     <Compile Include="libtcodpy\cprotos.py" />
     <Compile Include="libtcodpy\__init__.py" />
+    <Compile Include="map_objects\rect.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="map_objects\game_map.py" />
+    <Compile Include="map_objects\tile.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="map_objects\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fov_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="render_functions.py">
       <SubType>Code</SubType>
     </Compile>
