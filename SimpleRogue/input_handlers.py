@@ -25,6 +25,9 @@ def handle_keys(key):
     elif key_char == 'g':
         return {'pickup': True}
 
+    elif key_char == 'i':
+        return {'show_inventory': True}
+
     #Full Screen Toggle
     elif key.vk == libtcod.KEY_ENTER and key.lalt:
         return {'fullscreen': True}

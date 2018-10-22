@@ -80,6 +80,9 @@
     <Compile Include="fov_functions.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="menus.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="render_functions.py">
       <SubType>Code</SubType>
     </Compile>
