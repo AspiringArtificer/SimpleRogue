@@ -44,6 +44,9 @@
     <Compile Include="components\item.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="item_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="components\__init__.py">
       <SubType>Code</SubType>
     </Compile>

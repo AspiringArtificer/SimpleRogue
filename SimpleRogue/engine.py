@@ -54,6 +54,7 @@ def main():
     player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,
                     fighter=fighter_component, inventory=inventory_component)
     entities = [player]
+    player_won = False
 
     #set up screen
     libtcod.console_set_custom_font('arial12x12.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
@@ -91,16 +92,22 @@ def main():
         libtcod.console_flush()
         clear_all(con, entities)
 
-        action = handle_keys(key)
+        #Define possible actions
+        action = handle_keys(key, game_state)
 
         move = action.get('move')
         pickup = action.get('pickup')
         show_inventory = action.get('show_inventory')
+        inventory_index = action.get('inventory_index')
         exit = action.get('exit')
         fullscreen = action.get('fullscreen')
 
+        #Clear the last set of results from actions
         player_turn_results = []
 
+        #Handle actions
+
+        #move the player
         if move and game_state == GameStates.PLAYERS_TURN:
             dx, dy = move
             destination_x = player.x + dx
@@ -118,7 +125,8 @@ def main():
                     fov_recompute = True
                 
             game_state = GameStates.ENEMY_TURN
-
+        
+        #try to pick up something
         elif pickup and game_state == GameStates.PLAYERS_TURN:
             for entity in entities:
                 if entity.item and entity.x == player.x and entity.y == player.y:
@@ -129,23 +137,35 @@ def main():
             else:
                 message_log.add_message(Message('There is nothing here to pick up.', libtcod.yellow))
 
+        #display the inventory screen
         if show_inventory:
             if game_state != GameStates.SHOW_INVENTORY:
                 previous_game_state = game_state
             game_state = GameStates.SHOW_INVENTORY
 
+        #use an item in the inventory
+        if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(
+            player.inventory.items):
+            item = player.inventory.items[inventory_index]
+            player_turn_results.extend(player.inventory.use(item))
+
+        #exit screen or close game
         if exit:
             if game_state == GameStates.SHOW_INVENTORY:
                 game_state = previous_game_state
             else:
                 return True
+
+        #toggle full screen view
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
+        #Display results of player actions
         for player_turn_result in player_turn_results:
             message = player_turn_result.get('message')
             dead_entity = player_turn_result.get('dead')
             item_added = player_turn_result.get('item_added')
+            item_consumed = player_turn_result.get('consumed')
 
             if message:
                 message_log.add_message(message)
@@ -162,6 +182,21 @@ def main():
                 entities.remove(item_added)
                 game_state = GameStates.ENEMY_TURN
 
+            if item_consumed:
+                game_state = GameStates.ENEMY_TURN
+
+        #check for win (player killed everything)
+        fighter_count = 0
+        for entity in entities:
+            if entity.fighter is not None and entity.name != 'Player':
+                fighter_count += 1
+        if fighter_count == 0 and player_won != True:
+            player_won = True
+            message_log.add_message(Message("I hope you're proud of yourself...", libtcod.yellow))
+            message_log.add_message(Message("You monster!", libtcod.red))
+
+
+        #Handle enemy actions and display results
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
                 if entity.ai:
